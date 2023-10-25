@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="edf59872-644a-4bca-87ea-2091d984557c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[select * from mahasiswa]]>
+	</queryString>
+	<field name="nim_mahasiswa" class="java.lang.Integer"/>
+	<field name="nama_mahasiswa" class="java.lang.String"/>
+	<field name="program_studi" class="java.lang.String"/>
+	<field name="semester" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="149" y="19" width="284" height="41" uuid="fad64dad-eec2-4f97-ba84-2d3b29bfce71"/>
+				<textElement>
+					<font size="30" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA MAHASISWA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="11" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="99" y="20" width="27" height="20" uuid="cff03b7e-f097-4ca1-aa37-e3668b823f26"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="20" width="120" height="20" uuid="eb3d6024-01cc-4e75-9dd2-343ec5fa34c2"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Mahasiswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="20" width="100" height="20" uuid="ab6cbcdf-8700-4b8c-b7fe-67db47ae12e4"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Program Studi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="406" y="20" width="70" height="20" uuid="0551b7db-d663-4198-9032-a5f4e53452f2"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Semester]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="79" y="0" width="63" height="20" uuid="bfe9fb18-c933-4be9-a89d-1b0aa5d94828"/>
+				<textFieldExpression><![CDATA[$F{nim_mahasiswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="0" width="120" height="20" uuid="9d3cce6e-349e-4ff7-a639-a63c0f354797"/>
+				<textFieldExpression><![CDATA[$F{nama_mahasiswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="406" y="0" width="70" height="20" uuid="dd038a48-c650-46e6-a009-658950d0ae08"/>
+				<textFieldExpression><![CDATA[$F{semester}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="0" width="100" height="20" uuid="37882a28-95c6-454c-875c-977fa4632510"/>
+				<textFieldExpression><![CDATA[$F{program_studi}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
