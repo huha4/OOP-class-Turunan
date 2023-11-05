@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-JDBC ini merupakan modul kelima pada mata kuliah Pemrograman Berbasis Objek. Didalam ini saya melakukan penyambungan dengan menggunakan driver JDBC dan membuat CRUD (create, read, update, delete) berbasis GUI.
+GUI ini merupakan modul kelima pada mata kuliah Pemrograman Berbasis Objek. Didalam ini saya melakukan penyambungan dengan menggunakan driver JDBC dan membuat CRUD (create, read, update, delete) berbasis GUI.
 
 
 ## Features
