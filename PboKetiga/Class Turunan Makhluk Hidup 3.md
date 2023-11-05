@@ -4,11 +4,12 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-Class turunan ini merupakan modul ketiga pada mata kuliah Pemrograman Berbasis Objek. Didalam ini saya membuat tentang 6 class dan 1 main class, constructor, dan ditambah menggunakan this dan super.
+Class turunan ini merupakan modul ketiga pada mata kuliah Pemrograman Berbasis Objek. Didalam ini saya membuat tentang 6 class dan 1 main class, 3 interfaces constructor, dan ditambah menggunakan this dan super.
 
 
 ## Features
 
+- Interfaces
 - Constructor
 - This
 - Super
