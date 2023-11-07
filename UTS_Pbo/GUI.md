@@ -6,6 +6,9 @@
 
 GUI ini merupakan modul keenam hingga kesembilan pada mata kuliah Pemrograman Berbasis Objek. Didalam ini saya menggunakan persistance dan membuat CRUD (create, read, update, delete), report dan input CSV yang berbasis GUI.
 
+JPA (Java Persistance API) adalah sekumpulan class dan method untuk menyimpan data kedalam database. JPA dibuat untuk mengurangi beban penulisan kode program untuk pengelolaan database, yang memungkinkan interaksi yang mudah dengan database.
+
+CSV adalah singkatan dari Comma Separated Values. Semua file Comma Separated Values adalah file teks biasa, dapat berisi angka dan huruf saja, dan menyusun data yang terkandung di dalamnya dalam bentuk table, form dimana dalam basis data di mana setiap record dipisahkan dengan tanda koma (,) atau titik koma (;). Format data CSV ini memudahkan penggunanya melakukan penginputan data ke database secara sederhana.
 
 ## Features
 
