@@ -1,0 +1,1166 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package uas_pbo;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+
+/**
+ *
+ * @author Bambang Sumadi
+ */
+public class inputBuku extends javax.swing.JFrame {
+
+    public void peringatan(String pesan) {
+        JOptionPane.showMessageDialog(rootPane, pesan);
+    }
+    ArrayList<Buku> inputBuku;
+
+    private void kosongkan_form() {
+        isiIsbn.setEditable(true);
+        isiIsbn.setText(null);
+        isiJudul1.setText(null);
+        isiPengarang1.setText(null);
+        isiPenerbit1.setText(null);
+        isiTahun1.setText(null);
+        isiJumlah1.setText(null);
+        isiJumlahBuku.setText(null);
+        isiSub.setText(null);
+    }
+
+    private int masukkanData(Connection conn, String isbn, String judulBuku, String pengarang, String penerbit, String tahunTerbit, String jumlahHalaman, String jumlahBuku, String subJudul) throws SQLException {
+        PreparedStatement pst = conn.prepareStatement("INSERT INTO buku (isbn, judul_buku, pengarang, penerbit, tahun_terbit, jumlah_halaman, jumlah_buku, sub_judul) VALUES(?,?,?,?,?,?,?,?)");
+        pst.setString(1, isbn);
+        pst.setString(2, judulBuku);
+        pst.setString(3, pengarang);
+        pst.setString(4, penerbit);
+        pst.setString(5, tahunTerbit);
+        pst.setString(6, jumlahHalaman);
+        pst.setString(7, jumlahBuku);
+        pst.setString(8, subJudul);
+        return pst.executeUpdate();
+    }
+
+    private int updateData(Connection conn, String isbn, String judulBuku, String pengarang, String penerbit, String tahunTerbit, String jumlahHalaman, String jumlahBuku, String subJudul) throws SQLException {
+        PreparedStatement pst = conn.prepareStatement("update buku set isbn = ? , judul_buku = ?, pengarang = ?, penerbit = ?, tahun_terbit = ?, jumlah_halaman = ?, jumlah_buku = ?, sub_judul = ? where id_skripsi = ?");
+        pst.setString(1, isbn);
+        pst.setString(2, judulBuku);
+        pst.setString(3, pengarang);
+        pst.setString(4, penerbit);
+        pst.setString(5, tahunTerbit);
+        pst.setString(6, jumlahHalaman);
+        pst.setString(7, jumlahBuku);
+        pst.setString(8, subJudul);
+        return pst.executeUpdate();
+    }
+
+    private int deleteData(Connection conn, String isbn) throws SQLException {
+        PreparedStatement pst = conn.prepareStatement("delete from buku where isbn = ?");
+        pst.setString(1, isbn);
+        return pst.executeUpdate();
+    }
+
+    private void Tampilan(Connection conn) {
+        inputBuku.clear();
+        try {
+            String sql = "select * from buku";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()) {
+                Buku data = new Buku();
+                data.setIsbn(String.valueOf(rs.getObject(1)));
+                data.setJudulBuku(String.valueOf(rs.getObject(2)));
+                data.setPengarang(String.valueOf(rs.getObject(3)));
+                data.setPenerbit(String.valueOf(rs.getObject(4)));
+                data.setTahunTerbit(String.valueOf(rs.getObject(5)));
+                data.setJumlahHalaman(String.valueOf(rs.getObject(6)));
+                data.setJumlahBuku(String.valueOf(rs.getObject(7)));
+                data.setSubJudul(String.valueOf(rs.getObject(8)));
+                inputBuku.add(data);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(inputBuku.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        isiId = new javax.swing.JTextField();
+        isiJudul = new javax.swing.JTextField();
+        isiPengarang = new javax.swing.JTextField();
+        isiPenerbit = new javax.swing.JTextField();
+        isiTahun = new javax.swing.JTextField();
+        isiJumlah = new javax.swing.JTextField();
+        jTextField15 = new javax.swing.JTextField();
+        jTextField14 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        profile2 = new javax.swing.JButton();
+        need1 = new javax.swing.JButton();
+        need2 = new javax.swing.JButton();
+        help2 = new javax.swing.JButton();
+        logout2 = new javax.swing.JButton();
+        home2 = new javax.swing.JButton();
+        isiIsbn = new javax.swing.JTextField();
+        isiJudul1 = new javax.swing.JTextField();
+        isiPengarang1 = new javax.swing.JTextField();
+        isiPenerbit1 = new javax.swing.JTextField();
+        isiTahun1 = new javax.swing.JTextField();
+        isiJumlah1 = new javax.swing.JTextField();
+        isiJumlahBuku = new javax.swing.JTextField();
+        isiSub = new javax.swing.JTextField();
+        save = new javax.swing.JButton();
+        update = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
+        input = new javax.swing.JButton();
+        print = new javax.swing.JButton();
+
+        isiId.setBackground(new java.awt.Color(2, 21, 70));
+        isiId.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiId.setForeground(new java.awt.Color(255, 255, 255));
+        isiId.setBorder(null);
+        isiId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiIdActionPerformed(evt);
+            }
+        });
+
+        isiJudul.setBackground(new java.awt.Color(2, 21, 70));
+        isiJudul.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiJudul.setForeground(new java.awt.Color(255, 255, 255));
+        isiJudul.setBorder(null);
+        isiJudul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiJudulActionPerformed(evt);
+            }
+        });
+
+        isiPengarang.setBackground(new java.awt.Color(2, 21, 70));
+        isiPengarang.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiPengarang.setForeground(new java.awt.Color(255, 255, 255));
+        isiPengarang.setBorder(null);
+        isiPengarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiPengarangActionPerformed(evt);
+            }
+        });
+
+        isiPenerbit.setBackground(new java.awt.Color(2, 21, 70));
+        isiPenerbit.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiPenerbit.setForeground(new java.awt.Color(255, 255, 255));
+        isiPenerbit.setBorder(null);
+        isiPenerbit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiPenerbitActionPerformed(evt);
+            }
+        });
+
+        isiTahun.setBackground(new java.awt.Color(2, 21, 70));
+        isiTahun.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiTahun.setForeground(new java.awt.Color(255, 255, 255));
+        isiTahun.setBorder(null);
+        isiTahun.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiTahunActionPerformed(evt);
+            }
+        });
+
+        isiJumlah.setBackground(new java.awt.Color(2, 21, 70));
+        isiJumlah.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiJumlah.setForeground(new java.awt.Color(255, 255, 255));
+        isiJumlah.setBorder(null);
+        isiJumlah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiJumlahActionPerformed(evt);
+            }
+        });
+
+        jTextField15.setBackground(new java.awt.Color(2, 21, 70));
+        jTextField15.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jTextField15.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField15.setBorder(null);
+        jTextField15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField15ActionPerformed(evt);
+            }
+        });
+
+        jTextField14.setBackground(new java.awt.Color(2, 21, 70));
+        jTextField14.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jTextField14.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField14.setBorder(null);
+        jTextField14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField14ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(0, 70, 251));
+        jButton1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Save");
+        jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(0, 70, 251));
+        jButton2.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Update");
+        jButton2.setBorder(null);
+
+        jButton3.setBackground(new java.awt.Color(0, 70, 251));
+        jButton3.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Delete");
+        jButton3.setBorder(null);
+
+        jButton4.setBackground(new java.awt.Color(0, 70, 251));
+        jButton4.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Input");
+        jButton4.setBorder(null);
+
+        jButton5.setBackground(new java.awt.Color(0, 70, 251));
+        jButton5.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Print");
+        jButton5.setBorder(null);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 8, 29));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1030, 680));
+
+        jPanel7.setBackground(new java.awt.Color(0, 8, 29));
+
+        jLabel14.setFont(new java.awt.Font("Bebas", 0, 24)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("university");
+        jLabel14.setToolTipText("");
+
+        jLabel15.setFont(new java.awt.Font("Bebas", 0, 24)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Bibliography");
+
+        jPanel8.setBackground(new java.awt.Color(0, 8, 29));
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 607, Short.MAX_VALUE)
+        );
+
+        jLabel17.setFont(new java.awt.Font("Bebas", 0, 36)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("BUku");
+
+        jLabel19.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("ISBN");
+
+        jLabel2.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText(":");
+
+        jLabel20.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("Judul ");
+
+        jLabel4.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText(":");
+
+        jLabel21.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Pengarang");
+
+        jLabel5.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText(":");
+
+        jLabel22.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Penerbit");
+
+        jLabel6.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText(":");
+
+        jLabel23.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("Tahun terbit");
+
+        jLabel7.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText(":");
+
+        jLabel24.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setText("Jumlah halaman");
+
+        jLabel9.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText(":");
+
+        jLabel25.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel25.setText("Jumlah ");
+
+        jLabel11.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText(":");
+
+        jLabel26.setFont(new java.awt.Font("Helvetica", 1, 18)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel26.setText("Sub judul");
+
+        jLabel10.setFont(new java.awt.Font("Helvetica", 1, 16)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText(":");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel24)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel19)
+                                    .addComponent(jLabel20)
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel25))
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addGap(42, 42, 42)
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(96, 96, 96)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel14))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel7))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel25)
+                            .addComponent(jLabel11))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel26)
+                            .addComponent(jLabel10))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        jPanel9.setBackground(new java.awt.Color(0, 8, 29));
+
+        profile2.setBackground(new java.awt.Color(0, 8, 29));
+        profile2.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        profile2.setForeground(new java.awt.Color(255, 255, 255));
+        profile2.setText("Profile");
+        profile2.setBorder(null);
+        profile2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profile2ActionPerformed(evt);
+            }
+        });
+
+        need1.setBackground(new java.awt.Color(0, 8, 29));
+        need1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        need1.setForeground(new java.awt.Color(255, 255, 255));
+        need1.setText("Skripsi");
+        need1.setBorder(null);
+        need1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                need1ActionPerformed(evt);
+            }
+        });
+
+        need2.setBackground(new java.awt.Color(0, 8, 29));
+        need2.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        need2.setForeground(new java.awt.Color(255, 255, 255));
+        need2.setText("Buku");
+        need2.setBorder(null);
+        need2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                need2ActionPerformed(evt);
+            }
+        });
+
+        help2.setBackground(new java.awt.Color(0, 8, 29));
+        help2.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        help2.setForeground(new java.awt.Color(255, 255, 255));
+        help2.setText("Help");
+        help2.setBorder(null);
+        help2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                help2ActionPerformed(evt);
+            }
+        });
+
+        logout2.setBackground(new java.awt.Color(0, 8, 29));
+        logout2.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        logout2.setForeground(new java.awt.Color(255, 255, 255));
+        logout2.setText("Logout");
+        logout2.setBorder(null);
+        logout2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logout2ActionPerformed(evt);
+            }
+        });
+
+        home2.setBackground(new java.awt.Color(0, 8, 29));
+        home2.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        home2.setForeground(new java.awt.Color(255, 255, 255));
+        home2.setText("Home");
+        home2.setBorder(null);
+        home2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                home2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(612, Short.MAX_VALUE)
+                .addComponent(home2)
+                .addGap(36, 36, 36)
+                .addComponent(profile2)
+                .addGap(35, 35, 35)
+                .addComponent(need1)
+                .addGap(31, 31, 31)
+                .addComponent(need2)
+                .addGap(33, 33, 33)
+                .addComponent(help2)
+                .addGap(32, 32, 32)
+                .addComponent(logout2)
+                .addGap(36, 36, 36))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(home2)
+                    .addComponent(profile2)
+                    .addComponent(need2)
+                    .addComponent(help2)
+                    .addComponent(logout2)
+                    .addComponent(need1))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        isiIsbn.setBackground(new java.awt.Color(2, 21, 70));
+        isiIsbn.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiIsbn.setForeground(new java.awt.Color(255, 255, 255));
+        isiIsbn.setBorder(null);
+        isiIsbn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiIsbnActionPerformed(evt);
+            }
+        });
+
+        isiJudul1.setBackground(new java.awt.Color(2, 21, 70));
+        isiJudul1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiJudul1.setForeground(new java.awt.Color(255, 255, 255));
+        isiJudul1.setBorder(null);
+        isiJudul1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiJudul1ActionPerformed(evt);
+            }
+        });
+
+        isiPengarang1.setBackground(new java.awt.Color(2, 21, 70));
+        isiPengarang1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiPengarang1.setForeground(new java.awt.Color(255, 255, 255));
+        isiPengarang1.setBorder(null);
+        isiPengarang1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiPengarang1ActionPerformed(evt);
+            }
+        });
+
+        isiPenerbit1.setBackground(new java.awt.Color(2, 21, 70));
+        isiPenerbit1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiPenerbit1.setForeground(new java.awt.Color(255, 255, 255));
+        isiPenerbit1.setBorder(null);
+        isiPenerbit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiPenerbit1ActionPerformed(evt);
+            }
+        });
+
+        isiTahun1.setBackground(new java.awt.Color(2, 21, 70));
+        isiTahun1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiTahun1.setForeground(new java.awt.Color(255, 255, 255));
+        isiTahun1.setBorder(null);
+        isiTahun1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiTahun1ActionPerformed(evt);
+            }
+        });
+
+        isiJumlah1.setBackground(new java.awt.Color(2, 21, 70));
+        isiJumlah1.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiJumlah1.setForeground(new java.awt.Color(255, 255, 255));
+        isiJumlah1.setBorder(null);
+        isiJumlah1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiJumlah1ActionPerformed(evt);
+            }
+        });
+
+        isiJumlahBuku.setBackground(new java.awt.Color(2, 21, 70));
+        isiJumlahBuku.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiJumlahBuku.setForeground(new java.awt.Color(255, 255, 255));
+        isiJumlahBuku.setBorder(null);
+        isiJumlahBuku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiJumlahBukuActionPerformed(evt);
+            }
+        });
+
+        isiSub.setBackground(new java.awt.Color(2, 21, 70));
+        isiSub.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        isiSub.setForeground(new java.awt.Color(255, 255, 255));
+        isiSub.setBorder(null);
+        isiSub.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isiSubActionPerformed(evt);
+            }
+        });
+
+        save.setBackground(new java.awt.Color(0, 70, 251));
+        save.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        save.setForeground(new java.awt.Color(255, 255, 255));
+        save.setText("Save");
+        save.setBorder(null);
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
+
+        update.setBackground(new java.awt.Color(0, 70, 251));
+        update.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        update.setForeground(new java.awt.Color(255, 255, 255));
+        update.setText("Update");
+        update.setBorder(null);
+        update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateActionPerformed(evt);
+            }
+        });
+
+        delete.setBackground(new java.awt.Color(0, 70, 251));
+        delete.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        delete.setForeground(new java.awt.Color(255, 255, 255));
+        delete.setText("Delete");
+        delete.setBorder(null);
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+
+        input.setBackground(new java.awt.Color(0, 70, 251));
+        input.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        input.setForeground(new java.awt.Color(255, 255, 255));
+        input.setText("Input");
+        input.setBorder(null);
+        input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputActionPerformed(evt);
+            }
+        });
+
+        print.setBackground(new java.awt.Color(0, 70, 251));
+        print.setFont(new java.awt.Font("Helvetica", 1, 12)); // NOI18N
+        print.setForeground(new java.awt.Color(255, 255, 255));
+        print.setText("Print");
+        print.setBorder(null);
+        print.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(isiSub, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(isiJumlahBuku, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(isiJumlah1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(isiTahun1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(isiPenerbit1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(isiPengarang1)
+                            .addComponent(isiJudul1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 635, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(isiIsbn))
+                        .addGap(91, 91, 91))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(isiIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiJudul1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiPengarang1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiPenerbit1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiTahun1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiJumlah1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiJumlahBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(isiSub, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(save, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(update, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(input, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void need1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_need1ActionPerformed
+        new inputSkripsi().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_need1ActionPerformed
+
+    private void isiIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiIdActionPerformed
+
+    private void isiJudulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiJudulActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiJudulActionPerformed
+
+    private void isiPengarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiPengarangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiPengarangActionPerformed
+
+    private void isiPenerbitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiPenerbitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiPenerbitActionPerformed
+
+    private void isiTahunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiTahunActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiTahunActionPerformed
+
+    private void isiJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiJumlahActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiJumlahActionPerformed
+
+    private void jTextField15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField15ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField15ActionPerformed
+
+    private void jTextField14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField14ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void isiIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiIsbnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiIsbnActionPerformed
+
+    private void isiJudul1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiJudul1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiJudul1ActionPerformed
+
+    private void isiPengarang1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiPengarang1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiPengarang1ActionPerformed
+
+    private void isiPenerbit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiPenerbit1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiPenerbit1ActionPerformed
+
+    private void isiTahun1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiTahun1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiTahun1ActionPerformed
+
+    private void isiJumlah1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiJumlah1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiJumlah1ActionPerformed
+
+    private void isiJumlahBukuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiJumlahBukuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiJumlahBukuActionPerformed
+
+    private void isiSubActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isiSubActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_isiSubActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        String isbn = isiIsbn.getText();
+        String judulBuku = isiJudul1.getText();
+        String pengarang = isiPengarang1.getText();
+        String penerbit = isiPenerbit1.getText();
+        String tahunTerbit = isiTahun1.getText();
+        String jumlahHalaman = isiJumlah1.getText();
+        String jumlahBuku = isiJumlahBuku.getText();
+        String subJudul = isiSub.getText();
+        if (!isbn.isEmpty() && !judulBuku.isEmpty() && !pengarang.isEmpty() && !penerbit.isEmpty() && !tahunTerbit.isEmpty() && !jumlahHalaman.isEmpty() && !jumlahBuku.isEmpty() && !subJudul.isEmpty()) {
+            EntityManager entityManager = Persistence.createEntityManagerFactory("UtsPboPU").createEntityManager();
+            entityManager.getTransaction().begin();
+            Buku b = new Buku();
+            b.setIsbn(isbn);
+            b.setJudulBuku(judulBuku);
+            b.setPengarang(pengarang);
+            b.setPenerbit(penerbit);
+            b.setTahunTerbit(tahunTerbit);
+            b.setJumlahHalaman(jumlahHalaman);
+            b.setJumlahBuku(jumlahBuku);
+            b.setSubJudul(subJudul);
+            entityManager.persist(b);
+            entityManager.getTransaction().commit();
+            isiIsbn.setText("");
+            isiJudul1.setText("");
+            isiPengarang1.setText("");
+            isiPenerbit1.setText("");
+            isiTahun1.setText("");
+            isiJumlah1.setText("");
+            isiJumlahBuku.setText("");
+            isiSub.setText("");
+        }
+                    boolean berhasil = true;
+            if (berhasil) {
+                System.out.println("Saved successful");
+            } else {
+                System.out.println("Failed to save");
+            }
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
+        try {
+            EntityManajer entityManager = Persistence.createEntityManagerFactory("UtsPboPU").createEntityManager();
+            entityManager.getTransaction().begin();
+            TypedQuery<Buku> querySelectAll = entityManager.createNamedQuery("BukuPOJO.findAll", Buku.class);
+            List<Buku> results = querySelectAll.getResultList();
+            entityManager.getTransaction().commit();
+            entityManager.close();
+
+            String jrxmlFile = "src/UtsPbo/Cetakk.jrxml";
+            JasperReport jr = JasperCompileManager.compileReport(jrxmlFile);
+//            JasperPrint jp = JasperFillManager.fillReport(jr, null, conn);
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, new JRBeanCollectionDataSource(results));
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(inputBuku.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            Logger.getLogger(inputBuku.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }//GEN-LAST:event_printActionPerformed
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+        String isbn = isiIsbn.getText();
+        String judulBuku = isiJudul1.getText();
+        String pengarang = isiPengarang1.getText();
+        String penerbit = isiPenerbit1.getText();
+        String tahunTerbit = isiTahun1.getText();
+        String jumlahHalaman = isiJumlah1.getText();
+        String jumlahBuku = isiJumlahBuku.getText();
+        String subJudul = isiSub.getText();
+        if (!isbn.isEmpty() && !judulBuku.isEmpty() && !pengarang.isEmpty() && !penerbit.isEmpty() && !tahunTerbit.isEmpty() && !jumlahHalaman.isEmpty() && !jumlahBuku.isEmpty() && !subJudul.isEmpty()) {
+            EntityManager entityManager = Persistence.createEntityManagerFactory("uas_pbo").createEntityManager();
+            entityManager.getTransaction().begin();
+            Buku b = new Buku();
+            b.setIsbn(isbn);
+            b.setJudulBuku(judulBuku);
+            b.setPengarang(pengarang);
+            b.setPenerbit(penerbit);
+            b.setTahunTerbit(tahunTerbit);
+            b.setJumlahHalaman(jumlahHalaman);
+            b.setJumlahBuku(jumlahBuku);
+            b.setSubJudul(subJudul);
+            entityManager.persist(b);
+            entityManager.getTransaction().commit();
+            isiIsbn.setText("");
+            isiJudul1.setText("");
+            isiPengarang1.setText("");
+            isiPenerbit1.setText("");
+            isiTahun1.setText("");
+            isiJumlah1.setText("");
+            isiJumlahBuku.setText("");
+            isiSub.setText("");
+        }
+                    boolean berhasil = true;
+            if (berhasil) {
+                System.out.println("Update successful");
+            } else {
+                System.out.println("Failed to update");
+            }
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        String isbn = (isiIsbn.getText().trim());
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("uas_pbo");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Buku b = em.find(Buku.class, isbn);
+        em.remove(b);
+        em.getTransaction().commit();
+        isiIsbn.setText("");
+        kosongkan_form();
+                            boolean berhasil = true;
+            if (berhasil) {
+                System.out.println("Delete successful");
+            } else {
+                System.out.println("Failed to delete");
+            }
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputActionPerformed
+        JFileChooser filechooser = new JFileChooser();
+        int i = filechooser.showOpenDialog(null);
+        if (i == JFileChooser.APPROVE_OPTION) {
+            EntityManager entityManager = Persistence.createEntityManagerFactory("uas_pbo").createEntityManager();
+            entityManager.getTransaction().begin();
+            File f = filechooser.getSelectedFile();
+            String filepath = f.getPath();
+            //Parsing CSV Data
+            try {
+                InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(filepath));
+                org.apache.commons.csv.CSVParser csvParser = CSVFormat.DEFAULT.parse(inputStreamReader);
+                for (CSVRecord csvRecord : csvParser) {
+                    Buku b = new Buku();
+                    b.setIsbn(csvRecord.get(0));
+                    b.setJudulBuku(csvRecord.get(1));
+                    b.setPengarang(csvRecord.get(2));
+                    b.setPenerbit(csvRecord.get(3));
+                    b.setTahunTerbit(csvRecord.get(4));
+                    b.setJumlahHalaman(csvRecord.get(5));
+                    b.setJumlahBuku(csvRecord.get(6));
+                    b.setSubJudul(csvRecord.get(7));
+                    entityManager.persist(b);
+                }
+            } catch (IOException ex) {
+                System.out.println("Error in Parsing CSV File");
+            }
+            entityManager.getTransaction().commit();
+        }
+    }//GEN-LAST:event_inputActionPerformed
+
+    private void home2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_home2ActionPerformed
+        new dashboard().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_home2ActionPerformed
+
+    private void profile2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profile2ActionPerformed
+        new profile().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_profile2ActionPerformed
+
+    private void need2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_need2ActionPerformed
+        new inputBuku().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_need2ActionPerformed
+
+    private void help2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_help2ActionPerformed
+        new help().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_help2ActionPerformed
+
+    private void logout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout2ActionPerformed
+
+        // Memanggil metode logoutUser dan menangani hasilnya
+        boolean logoutSuccessful = logoutUser();
+        if (logoutSuccessful) {
+            System.out.println("You made it out");
+        } else {
+            System.out.println("logout failed");
+        }
+    }
+
+    private static boolean logoutUser() {
+        // Logika logout user
+        // Isi dengan kode yang sesuai, seperti membersihkan sesi, menghapus token akses, dll.
+        // Contoh:
+        // session.clear();
+        // accessToken.delete();
+        // Mengembalikan status logout berhasil atau gagal
+        return true; // Ganti dengan false jika logout gagal
+
+    }//GEN-LAST:event_logout2ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(inputBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(inputBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(inputBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(inputBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new inputBuku().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton delete;
+    private javax.swing.JButton help2;
+    private javax.swing.JButton home2;
+    private javax.swing.JButton input;
+    private javax.swing.JTextField isiId;
+    private javax.swing.JTextField isiIsbn;
+    private javax.swing.JTextField isiJudul;
+    private javax.swing.JTextField isiJudul1;
+    private javax.swing.JTextField isiJumlah;
+    private javax.swing.JTextField isiJumlah1;
+    private javax.swing.JTextField isiJumlahBuku;
+    private javax.swing.JTextField isiPenerbit;
+    private javax.swing.JTextField isiPenerbit1;
+    private javax.swing.JTextField isiPengarang;
+    private javax.swing.JTextField isiPengarang1;
+    private javax.swing.JTextField isiSub;
+    private javax.swing.JTextField isiTahun;
+    private javax.swing.JTextField isiTahun1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JTextField jTextField14;
+    private javax.swing.JTextField jTextField15;
+    private javax.swing.JButton logout2;
+    private javax.swing.JButton need1;
+    private javax.swing.JButton need2;
+    private javax.swing.JButton print;
+    private javax.swing.JButton profile2;
+    private javax.swing.JButton save;
+    private javax.swing.JButton update;
+    // End of variables declaration//GEN-END:variables
+}
